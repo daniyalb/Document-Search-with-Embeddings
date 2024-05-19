@@ -4,7 +4,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "80:80"
     volumes:
       - ./frontend:/app
     depends_on:
@@ -33,3 +33,5 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
