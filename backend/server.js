@@ -5,10 +5,12 @@ const cors = require('cors');
 const app = express();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const PORT = 8080;
 const SECRET_KEY = 'secret key';
 // const SECRET_KEY = process.env.JWT_SECRET_KEY;
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -57,6 +59,18 @@ app.get('/api/validate', (req, res) => {
     if (err) return res.status(401).json({ message: 'Invalid token' });
     res.json({ user: decoded });
   });
+});
+
+app.get('/api/generate/embedding', async (req, res) => {
+    const model = genAI.getGenerativeModel({ model: "embedding-001"});
+
+    const text = "The quick brown fox jumps over the lazy dog."
+
+    const result = await model.embedContent(text);
+    const embedding = result.embedding;
+    console.log(embedding.values);
+
+    res.json({ embedding: embedding.values });
 });
 
 app.listen(PORT, () => {
