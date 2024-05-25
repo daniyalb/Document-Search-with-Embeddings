@@ -1,31 +1,32 @@
 import "./App.css";
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
-import Home from "./routes/Home";
-import Login from "./routes/Login";
+// import { useEffect } from "react";
+// import axios from "axios";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import { AuthProvider, useAuth } from "./authContext";
 
 function App() {
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
 
-  useEffect(() => {
-    const generateEmbedding = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/generate/embedding",
-          {
-            headers: { Authorization: localStorage.getItem("token") },
-          }
-        );
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    generateEmbedding();
-  }, []);
+  // useEffect(() => {
+  //   const generateEmbedding = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://localhost:8080/api/generate/embedding",
+  //         {
+  //           headers: { Authorization: localStorage.getItem("token") },
+  //         }
+  //       );
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   generateEmbedding();
+  // }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -39,12 +40,16 @@ function App() {
         {auth ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (
-          <Link to="/login">Login</Link>
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
         )}
         <Link to="/">Home</Link>
       </nav>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/"
           element={

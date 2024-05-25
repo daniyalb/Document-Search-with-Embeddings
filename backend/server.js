@@ -31,9 +31,9 @@ app.post("/api/register", async (req, res) => {
       username,
       hashedPassword,
     ]);
-    res.status(201).send();
+    res.status(201).send({ message: "User registered successfully" });
   } catch (error) {
-    res.status(400).send();
+    res.status(400).send({ message: "Error registering user" });
   }
 });
 
@@ -64,14 +64,14 @@ app.get("/api/validate", (req, res) => {
   });
 });
 
-const authenticateToken = require('./authMiddleware');
+const authenticateToken = require("./authMiddleware");
 
-app.get('/api/generate/embedding', authenticateToken, async (req, res) => {
-    const model = genAI.getGenerativeModel({ model: "embedding-001"});
-    const text = "The quick brown fox jumps over the lazy dog.";
-    const result = await model.embedContent(text);
-    const embedding = result.embedding;
-    res.json({ embedding: embedding.values });
+app.get("/api/generate/embedding", authenticateToken, async (req, res) => {
+  const model = genAI.getGenerativeModel({ model: "embedding-001" });
+  const text = "The quick brown fox jumps over the lazy dog.";
+  const result = await model.embedContent(text);
+  const embedding = result.embedding;
+  res.json({ embedding: embedding.values });
 });
 
 app.listen(PORT, () => {
