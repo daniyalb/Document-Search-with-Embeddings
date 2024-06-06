@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/api/generate/embedding", authenticateToken, async (req, res) => {
+app.get("/api/generate/embedding", async (req, res) => {
   const model = genAI.getGenerativeModel({ model: "embedding-001" });
   const text = "The quick brown fox jumps over the lazy dog.";
   const result = await model.embedContent(text);
