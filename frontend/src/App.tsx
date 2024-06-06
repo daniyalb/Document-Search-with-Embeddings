@@ -1,16 +1,10 @@
 import "./App.css";
-import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 // import { useEffect } from "react";
 // import axios from "axios";
 import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import { AuthProvider, useAuth } from "./authContext";
 
 function App() {
-  const navigate = useNavigate();
-  const { auth, setAuth } = useAuth();
-
   // useEffect(() => {
   //   const generateEmbedding = async () => {
   //     try {
@@ -28,55 +22,16 @@ function App() {
   //   generateEmbedding();
   // }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setAuth(false);
-    navigate("/login");
-  };
-
   return (
     <div className="App">
       <nav>
-        {auth ? (
-          <button onClick={handleLogout}>Logout</button>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        )}
         <Link to="/">Home</Link>
       </nav>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<Home />} />
       </Routes>
     </div>
   );
 }
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const { auth } = useAuth();
-  if (!auth) {
-    return <Navigate to="/login" />;
-  }
-  return <>{children}</>;
-};
-
-const AppWrapper: React.FC = () => (
-  <AuthProvider>
-    <App />
-  </AuthProvider>
-);
-
-export default AppWrapper;
+export default App;
