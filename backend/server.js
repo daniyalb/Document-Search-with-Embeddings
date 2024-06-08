@@ -3,19 +3,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { auth } = require("express-openid-connect");
 
 const PORT = 8080;
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: process.env.AUTH0_SECRET,
-  baseURL: "http://localhost:80",
-  clientID: process.env.AUTH0_CLIENT_ID,
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-};
 
 app.use(cors());
 app.use(bodyParser.json());
