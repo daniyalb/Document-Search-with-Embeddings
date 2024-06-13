@@ -1,15 +1,18 @@
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
 import { useEffect, useState } from "react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { Auth } from "@supabase/auth-ui-react";
 import { Session, createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.REACT_APP_SUPABASE_URL || "",
-  process.env.REACT_APP_SUPABASE_ANON_KEY || ""
-);
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+
+console.log(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function App() {
   // useEffect(() => {
@@ -33,35 +36,45 @@ function App() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
+      setSession(session);
     });
 
-    const { data: { subscription }, } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }
-  , []);
+  }, []);
 
-  if (!session) {
-    return (
-      <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
-    );
-  } else {
-    return (
-      <div className="App">
-        <nav>
-          <Link to="/">Home</Link>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <nav>
+        <Link to="/">Home</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* protected routes like /dashboard */}
+        <Route
+          path="/dashboard"
+          element={
+            session ? (
+              <Dashboard />
+            ) : (
+              <Auth
+                supabaseClient={supabase}
+                appearance={{ theme: ThemeSupa }}
+                providers={["google"]}
+              />
+            )
+          }
+        />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
