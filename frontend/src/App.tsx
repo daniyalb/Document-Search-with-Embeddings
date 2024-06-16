@@ -50,6 +50,8 @@ function App() {
     };
   }, []);
 
+  console.log(session);
+
   return (
     <div className="App">
       <nav>
@@ -57,12 +59,11 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* protected routes like /dashboard */}
         <Route
           path="/dashboard"
           element={
             session ? (
-              <Dashboard />
+              <Dashboard userToken={session.access_token} />
             ) : (
               <Auth
                 supabaseClient={supabase}
