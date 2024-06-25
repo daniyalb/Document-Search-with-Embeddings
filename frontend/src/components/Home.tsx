@@ -6,8 +6,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <AppBar
@@ -27,32 +30,28 @@ export const Home = () => {
             Doc<span style={{ color: "#D662FF" }}>Gemini</span>
           </Typography>
           <Box>
-            <Button
-              color="inherit"
-              style={{
-                borderColor: "#ffffff",
-                color: "#ffffff",
-                marginRight: "3em",
-                padding: "0.75em 3.5em",
+            <Box
+              sx={{
+                background: "linear-gradient(to right, #D14EFF, #9F03B8)",
                 borderRadius: "15px",
+                padding: "2px"
               }}
-              variant="outlined"
             >
-              Login
-            </Button>
-            <Button
-              color="inherit"
-              style={{
-                border: "2px solid",
-                borderImage: "linear-gradient(to right, #D14EFF, #9F03B8)",
-                borderImageSlice: 1,
-                color: "#ffffff",
-                padding: "0.75em 3.5em",
-              }}
-              variant="outlined"
-            >
-              Sign up
-            </Button>
+              <Button
+                color="inherit"
+                sx={{
+                  color: "#ffffff",
+                  marginRight: "3em",
+                  padding: "0.75em 3.5em",
+                  borderRadius: "15px",
+                  border: "none",
+                  width: "100%",
+                }}
+                variant="outlined"
+              >
+                Login / Sign Up
+              </Button>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>
@@ -94,6 +93,7 @@ export const Home = () => {
               (e.currentTarget.style.background =
                 "linear-gradient(to right, #D14EFF, #9F03B8)")
             }
+            onClick={() => navigate("/dashboard")}
           >
             Get Started
           </Button>
