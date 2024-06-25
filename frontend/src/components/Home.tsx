@@ -32,7 +32,9 @@ export const Home = () => {
               style={{
                 borderColor: "#ffffff",
                 color: "#ffffff",
-                marginRight: "10px",
+                marginRight: "3em",
+                padding: "0.75em 3.5em",
+                borderRadius: "15px",
               }}
               variant="outlined"
             >
@@ -40,7 +42,13 @@ export const Home = () => {
             </Button>
             <Button
               color="inherit"
-              style={{ borderColor: "#aa00ff", color: "#aa00ff" }}
+              style={{
+                border: "2px solid",
+                borderImage: "linear-gradient(to right, #D14EFF, #9F03B8)",
+                borderImageSlice: 1,
+                color: "#ffffff",
+                padding: "0.75em 3.5em",
+              }}
               variant="outlined"
             >
               Sign up
