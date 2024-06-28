@@ -2,7 +2,6 @@ import {
   AppBar,
   Box,
   Button,
-  Container,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -34,7 +33,7 @@ export const Home = () => {
               sx={{
                 background: "linear-gradient(to right, #D14EFF, #9F03B8)",
                 borderRadius: "15px",
-                padding: "2px"
+                padding: "2px",
               }}
             >
               <Button
@@ -55,50 +54,67 @@ export const Home = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="md" style={{ textAlign: "center" }}>
-        <Box style={{ marginTop: "20vh" }}>
-          <Typography
-            variant="h3"
-            fontWeight={700}
-            style={{ marginBottom: "20px", color: "#ffffff" }}
-          >
-            Harness the power of Generative AI to find the perfect document
-          </Typography>
-          <Typography
-            variant="h6"
-            fontWeight={300}
-            style={{ marginBottom: "40px", color: "#cfcfcf" }}
-          >
-            Effortlessly find the perfect document by describing your needs –
-            powered by Gemini AI and advanced embeddings for precise semantic
-            search.
-          </Typography>
-          <Button
-            variant="contained"
-            style={{
-              background: "linear-gradient(to right, #D14EFF, #9F03B8)",
-              color: "#ffffff",
-              padding: "1.2em 1.2em",
-              borderRadius: "10px",
-              fontSize: "1em",
-              fontWeight: "bold",
-              transition: "background 0.3s",
-              border: "none",
-            }}
-            onMouseOver={(e) =>
-              (e.currentTarget.style.background =
-                "linear-gradient(to right, #B130E8, #8F029A)")
-            }
-            onMouseOut={(e) =>
-              (e.currentTarget.style.background =
-                "linear-gradient(to right, #D14EFF, #9F03B8)")
-            }
-            onClick={() => navigate("/dashboard")}
-          >
-            Get Started
-          </Button>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "90vh",
+          textAlign: "center",
+        }}
+      >
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            maxWidth: "50%",
+          }}
+        >
+        <Typography
+          variant="h3"
+          fontWeight={700}
+          style={{ marginBottom: "20px", color: "#ffffff" }}
+        >
+          Harness the power of Generative AI to find the perfect document
+        </Typography>
+        <Typography
+          variant="h6"
+          fontWeight={300}
+          style={{ marginBottom: "40px", color: "#cfcfcf" }}
+        >
+          Effortlessly find the perfect document by describing your needs –
+          powered by Gemini AI and advanced embeddings for precise semantic
+          search.
+        </Typography>
+        <Button
+          variant="contained"
+          style={{
+            background: "linear-gradient(to right, #D14EFF, #9F03B8)",
+            color: "#ffffff",
+            padding: "1.2em 1.2em",
+            borderRadius: "10px",
+            fontSize: "1em",
+            fontWeight: "bold",
+            transition: "background 0.3s",
+            border: "none",
+          }}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.background =
+              "linear-gradient(to right, #B130E8, #8F029A)")
+          }
+          onMouseOut={(e) =>
+            (e.currentTarget.style.background =
+              "linear-gradient(to right, #D14EFF, #9F03B8)")
+          }
+          onClick={() => navigate("/dashboard")}
+        >
+          Get Started
+        </Button>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };
