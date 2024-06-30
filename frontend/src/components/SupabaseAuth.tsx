@@ -20,6 +20,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const SupabaseAuth = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
@@ -33,28 +34,28 @@ const SupabaseAuth = () => {
         style={{
           backgroundColor: "transparent",
           boxShadow: "none",
-          padding: isSmallScreen ? "0.5em" : "2em",
+          padding: isMediumScreen ? "0.5em" : "2em",
           height: "10%",
         }}
       >
         <Toolbar style={{ justifyContent: "space-between" }}>
-        <Box
-          onClick={() => navigate("/")}
-          style={{
-            cursor: "pointer",
-          }}
-        >
-          <Typography
-            variant="h4"
+          <Box
+            onClick={() => navigate("/")}
             style={{
-              color: "#ffffff",
-              fontWeight: "bold",
-              fontSize: isSmallScreen ? "1.5rem" : "2rem",
+              cursor: "pointer",
             }}
           >
-            Doc<span style={{ color: "#D662FF" }}>Gemini</span>
-          </Typography>
-        </Box>
+            <Typography
+              variant="h4"
+              style={{
+                color: "#ffffff",
+                fontWeight: "bold",
+                fontSize: isMediumScreen ? "1.5rem" : "2rem",
+              }}
+            >
+              Doc<span style={{ color: "#D662FF" }}>Gemini</span>
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
@@ -70,7 +71,7 @@ const SupabaseAuth = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
-            width: "40%",
+            width: isSmallScreen ? "90%" : isMediumScreen ? "60%" : "40%",
             outline: "1px solid rgba(255, 255, 255, 0.2)",
             borderRadius: "3em",
             background:
@@ -79,26 +80,28 @@ const SupabaseAuth = () => {
             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Box
-            component="img"
-            sx={{
-              borderRadius: "3em",
-              width: "40%",
-              objectFit: "cover",
-              opacity: 0.75,
-            }}
-            alt="An image of a brain made of dots connected by lines"
-            src={imgUrl}
-          />
+          {!isSmallScreen && (
+            <Box
+              component="img"
+              sx={{
+                borderRadius: "3em",
+                width: isMediumScreen ? "50%" : "40%",
+                objectFit: "cover",
+                opacity: 0.75,
+              }}
+              alt="An image of a brain made of dots connected by lines"
+              src={imgUrl}
+            />
+          )}
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              width: "60%",
-              paddingTop: "2em",
-              paddingBottom: "2em",
+              width: isSmallScreen ? "100%" : isMediumScreen ? "50%" : "60%",
+              paddingTop: isMediumScreen ? "1em" : "2em",
+              paddingBottom: isMediumScreen ? "1em" : "2em",
             }}
           >
             <Auth

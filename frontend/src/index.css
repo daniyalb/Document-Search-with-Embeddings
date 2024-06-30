@@ -23,7 +23,8 @@ html, body {
 }
 
 .supabase-auth-ui_ui-button.c-bOcPnF.c-bOcPnF-cmFMMs-color-primary {
-  background-color: #010a60;
+  background-color: black;
+  background: linear-gradient(90deg, #af57ce 0%, #3f67b7 100%);
   color: #fff;
-  border-color: #010a60;
+  border-color:#7a5b8e;
 }

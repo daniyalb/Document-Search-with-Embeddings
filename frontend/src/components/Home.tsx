@@ -41,7 +41,8 @@ const Home = () => {
               style={{
                 color: "#ffffff",
                 fontWeight: "bold",
-                fontSize: "2rem",
+                fontSize: isSmallScreen ? "1.5rem" : "2rem",
+                marginRight: isSmallScreen ? "1em" : "0",
               }}
             >
               Doc<span style={{ color: "#D662FF" }}>Gemini</span>
