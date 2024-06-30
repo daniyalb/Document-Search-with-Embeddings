@@ -3,9 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import { useEffect, useState } from "react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { Auth } from "@supabase/auth-ui-react";
 import { Session, createClient } from "@supabase/supabase-js";
+import SupabaseAuth from "./components/SupabaseAuth";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
@@ -43,11 +42,7 @@ function App() {
             session ? (
               <Dashboard userToken={session.access_token} />
             ) : (
-              <Auth
-                supabaseClient={supabase}
-                appearance={{ theme: ThemeSupa }}
-                providers={["google"]}
-              />
+              <SupabaseAuth />
             )
           }
         />

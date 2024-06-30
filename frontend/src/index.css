@@ -21,3 +21,9 @@ html, body {
   width: 100vw;
   overflow: hidden;
 }
+
+.supabase-auth-ui_ui-button.c-bOcPnF.c-bOcPnF-cmFMMs-color-primary {
+  background-color: #010a60;
+  color: #fff;
+  border-color: #010a60;
+}

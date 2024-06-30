@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 
-export const Home = () => {
+const Home = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -30,17 +30,23 @@ export const Home = () => {
         }}
       >
         <Toolbar style={{ justifyContent: "space-between" }}>
-          <Typography
-            variant="h4"
+          <Box
+            onClick={() => navigate("/")}
             style={{
-              color: "#ffffff",
-              fontWeight: "bold",
-              fontSize: isSmallScreen ? "1.5rem" : "2rem",
-              marginRight: isSmallScreen ? "1em" : "0",
+              cursor: "pointer",
             }}
           >
-            Doc<span style={{ color: "#D662FF" }}>Gemini</span>
-          </Typography>
+            <Typography
+              variant="h4"
+              style={{
+                color: "#ffffff",
+                fontWeight: "bold",
+                fontSize: "2rem",
+              }}
+            >
+              Doc<span style={{ color: "#D662FF" }}>Gemini</span>
+            </Typography>
+          </Box>
           <Box
             sx={{
               background: "linear-gradient(to right, #D14EFF, #9F03B8)",
