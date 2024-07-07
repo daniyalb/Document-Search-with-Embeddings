@@ -1,5 +1,6 @@
 import { Avatar, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
+import PersonIcon from '@mui/icons-material/Person';
 
 interface UserProps {
   user: any;
@@ -7,7 +8,6 @@ interface UserProps {
 }
 
 const UserIcon = ({ user, supabase }: UserProps) => {
-  const firstLetter = user.email.charAt(0).toUpperCase();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,11 +28,10 @@ const UserIcon = ({ user, supabase }: UserProps) => {
   const getAvatarColor = (letter: string) => {
     const hash = letter.charCodeAt(0) % 360;
     const backgroundColor = `hsl(${hash}, 70%, 50%)`;
-    const textColor = `hsl(${hash}, 70%, 20%)`;
-    return { backgroundColor, textColor };
+    return { backgroundColor };
   };
 
-  const { backgroundColor, textColor } = getAvatarColor(firstLetter);
+  const { backgroundColor } = getAvatarColor(user.email.charAt(0).toUpperCase());
 
   return (
     <div>
@@ -42,11 +41,10 @@ const UserIcon = ({ user, supabase }: UserProps) => {
           height: 48,
           cursor: "pointer",
           backgroundColor: backgroundColor,
-            color: textColor,
         }}
         onClick={handleMenuOpen}
       >
-        {firstLetter}
+        <PersonIcon color="secondary" />
       </Avatar>
       <Menu
         id="user-menu"

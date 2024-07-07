@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import UserIcon from "./UserIcon";
 import Prompt from "./Prompt";
+import Documents from "./Documents";
 
 interface DashboardProps {
   userToken: string;
@@ -78,9 +79,11 @@ export const Dashboard = ({ userToken, user, supabase }: DashboardProps) => {
           flexDirection: "column",
           alignItems: "center",
           height: "90%",
+          gap: "2em",
         }}
       >
         <Prompt isMediumScreen={isMediumScreen} isSmallScreen={isSmallScreen} />
+        <Documents isMediumScreen={isMediumScreen} isSmallScreen={isSmallScreen} />
       </Box>
     </>
   );
