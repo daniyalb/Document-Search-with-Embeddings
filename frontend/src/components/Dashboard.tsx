@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import UserIcon from "./UserIcon";
+import Prompt from "./Prompt";
 
 interface DashboardProps {
   userToken: string;
@@ -18,6 +19,7 @@ interface DashboardProps {
 export const Dashboard = ({ userToken, user, supabase }: DashboardProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   // useEffect(() => {
@@ -38,37 +40,49 @@ export const Dashboard = ({ userToken, user, supabase }: DashboardProps) => {
   // }, []);
 
   return (
-    <AppBar
-      position="static"
-      style={{
-        backgroundColor: "transparent",
-        boxShadow: "none",
-        padding: isSmallScreen ? "0.5em" : "2em",
-        height: "10%",
-      }}
-    >
-      <Toolbar style={{ justifyContent: "space-between" }}>
-        <Box
-          onClick={() => navigate("/")}
-          style={{
-            cursor: "pointer",
-          }}
-        >
-          <Typography
-            variant="h4"
+    <>
+      <AppBar
+        position="static"
+        style={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          padding: isSmallScreen ? "0.5em" : "2em",
+          height: "10%",
+        }}
+      >
+        <Toolbar style={{ justifyContent: "space-between" }}>
+          <Box
+            onClick={() => navigate("/")}
             style={{
-              color: "#ffffff",
-              fontWeight: "bold",
-              fontSize: isSmallScreen ? "1.5rem" : "2rem",
-              marginRight: isSmallScreen ? "1em" : "0",
+              cursor: "pointer",
             }}
           >
-            Doc<span style={{ color: "#D662FF" }}>Gemini</span>
-          </Typography>
-        </Box>
-        <UserIcon user={user} supabase={supabase} />
-      </Toolbar>
-    </AppBar>
+            <Typography
+              variant="h4"
+              style={{
+                color: "#ffffff",
+                fontWeight: "bold",
+                fontSize: isSmallScreen ? "1.5rem" : "2rem",
+                marginRight: isSmallScreen ? "1em" : "0",
+              }}
+            >
+              Doc<span style={{ color: "#D662FF" }}>Gemini</span>
+            </Typography>
+          </Box>
+          <UserIcon user={user} supabase={supabase} />
+        </Toolbar>
+      </AppBar>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "90%",
+        }}
+      >
+        <Prompt isMediumScreen={isMediumScreen} isSmallScreen={isSmallScreen} />
+      </Box>
+    </>
   );
 };
 
