@@ -3,11 +3,18 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import App from "./App";
+import { Box } from "@mui/material";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router>
-      <App />
+      <Box
+        style={{
+          height: "100vh",
+        }}
+      >
+        <App />
+      </Box>
     </Router>
   </React.StrictMode>
 );

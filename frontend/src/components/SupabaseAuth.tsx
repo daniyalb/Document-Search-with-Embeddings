@@ -24,11 +24,7 @@ const SupabaseAuth = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box
-      style={{
-        height: "100vh",
-      }}
-    >
+    <>
       <AppBar
         position="static"
         style={{
@@ -107,12 +103,12 @@ const SupabaseAuth = () => {
             <Auth
               supabaseClient={supabase}
               appearance={{ theme: ThemeSupa }}
-              providers={["google"]}
+              providers={[]}
             />
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

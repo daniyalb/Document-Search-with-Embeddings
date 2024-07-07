@@ -15,11 +15,7 @@ const Home = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box
-      style={{
-        height: "100vh",
-      }}
-    >
+    <>
       <AppBar
         position="static"
         style={{
@@ -50,7 +46,7 @@ const Home = () => {
           </Box>
           <Box
             sx={{
-              background: "linear-gradient(to right, #D14EFF, #9F03B8)",
+              background: "linear-gradient(90deg, #af57ce 0%, #3f67b7 100%)",
               borderRadius: "15px",
               padding: "2px",
             }}
@@ -136,7 +132,7 @@ const Home = () => {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

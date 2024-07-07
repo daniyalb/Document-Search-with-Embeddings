@@ -40,7 +40,11 @@ function App() {
           path="/dashboard"
           element={
             session ? (
-              <Dashboard userToken={session.access_token} />
+              <Dashboard
+                userToken={session.access_token}
+                user={session.user}
+                supabase={supabase}
+              />
             ) : (
               <SupabaseAuth />
             )
