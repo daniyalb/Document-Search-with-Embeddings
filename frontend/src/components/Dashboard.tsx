@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import UserIcon from "./UserIcon";
 import Prompt from "./Prompt";
 import Documents from "./Documents";
+import Upload from "./Upload";
 
 interface DashboardProps {
   userToken: string;
@@ -83,7 +84,32 @@ export const Dashboard = ({ userToken, user, supabase }: DashboardProps) => {
         }}
       >
         <Prompt isMediumScreen={isMediumScreen} isSmallScreen={isSmallScreen} />
-        <Documents isMediumScreen={isMediumScreen} isSmallScreen={isSmallScreen} />
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            width: "85%",
+            gap: "4em",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            style={{
+              color: "#ffffff",
+              fontWeight: "bold",
+              fontSize: isSmallScreen ? "1.5rem" : "2rem",
+            }}
+          >
+            Your Documents
+          </Typography>
+          <Upload isSmallScreen={isSmallScreen} />
+        </Box>
+        <Documents
+          isMediumScreen={isMediumScreen}
+          isSmallScreen={isSmallScreen}
+        />
       </Box>
     </>
   );
