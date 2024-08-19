@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const fs = require("fs");
+const multer = require("multer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { verifyToken } = require("./authMiddleware");
 const { parsePDFText } = require("./utils/pdfParser");
@@ -15,20 +15,22 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "5mb" })); // Increase the payload size limit
 app.use(bodyParser.urlencoded({ limit: "5mb", extended: true }));
 
-app.post("/api/receivePDF", verifyToken, async (req, res) => {
+// Set up multer for memory storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+app.post("/api/receivePDF", verifyToken, upload.single('file'), async (req, res) => {
   try {
-    const filePath = req.file.path;
-    const fileStats = fs.statSync(filePath);
-    const fileSizeInBytes = fileStats.size;
-    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB in bytes
+    const fileBuffer = req.file.buffer;
+    const fileSizeInBytes = fileBuffer.length;
+    const maxSizeInBytes = 2.5 * 1024 * 1024; // 2.5MB in bytes
     const userId = req.query.userId;
 
     if (fileSizeInBytes > maxSizeInBytes) {
-      fs.unlinkSync(filePath);
       return res.status(400).send('File size exceeds 5MB');
     }
 
-    const textContent = await parsePDFText(filePath);
+    const textContent = await parsePDFText(fileBuffer);
 
     // Split the text content into smaller chunks
     const maxSize = 10000; // 10,000 bytes
@@ -50,9 +52,6 @@ app.post("/api/receivePDF", verifyToken, async (req, res) => {
 
     // Combine the embeddings
     const embeddings = result.embeddings.flatMap(embedding => embedding.values);
-
-    // Clean up the uploaded file after processing
-    fs.unlinkSync(filePath);
 
     res.json({ embeddings });
   } catch (error) {
