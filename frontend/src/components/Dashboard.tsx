@@ -13,12 +13,11 @@ import Documents from "./Documents";
 import Upload from "./Upload";
 
 interface DashboardProps {
-  userToken: string;
   user: any;
   supabase: any;
 }
 
-export const Dashboard = ({ userToken, user, supabase }: DashboardProps) => {
+export const Dashboard = ({ user, supabase }: DashboardProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));

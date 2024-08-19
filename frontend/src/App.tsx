@@ -1,4 +1,5 @@
 import "./App.css";
+import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
@@ -10,6 +11,8 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+export const UserContext = createContext({ userToken: "" });
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -30,8 +33,6 @@ function App() {
     };
   }, []);
 
-  console.log(session);
-
   return (
     <div className="App">
       <Routes>
@@ -40,11 +41,13 @@ function App() {
           path="/dashboard"
           element={
             session ? (
-              <Dashboard
-                userToken={session.access_token}
-                user={session.user}
-                supabase={supabase}
-              />
+              <>
+                <UserContext.Provider
+                  value={{ userToken: session.access_token }}
+                >
+                  <Dashboard user={session.user} supabase={supabase} />
+                </UserContext.Provider>
+              </>
             ) : (
               <SupabaseAuth />
             )

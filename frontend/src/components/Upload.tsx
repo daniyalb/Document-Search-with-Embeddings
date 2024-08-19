@@ -1,19 +1,44 @@
 import { Button } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
-import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../App";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 interface UploadProps {
   isSmallScreen: boolean;
 }
 
 const Upload = ({ isSmallScreen }: UploadProps) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const { userToken } = useContext(UserContext);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
-      setSelectedFile(file);
-      console.log(file);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      toast.promise(
+        axios
+          .post("http://localhost:8080/api/receivePDF", formData, {
+            headers: {
+              Authorization: userToken,
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => console.log(response.data))
+          .catch((error) => {
+            console.error(error);
+            throw error;
+          }),
+        {
+          loading: "Uploading file...",
+          success: "File uploaded successfully!",
+          error: "Error uploading file",
+        }
+      );
     }
   };
 
