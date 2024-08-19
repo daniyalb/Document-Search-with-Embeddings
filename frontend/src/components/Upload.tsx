@@ -10,7 +10,7 @@ interface UploadProps {
 }
 
 const Upload = ({ isSmallScreen }: UploadProps) => {
-  const { userToken } = useContext(UserContext);
+  const { userToken, userId } = useContext(UserContext);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -23,20 +23,23 @@ const Upload = ({ isSmallScreen }: UploadProps) => {
       toast.promise(
         axios
           .post("http://localhost:8080/api/receivePDF", formData, {
-            headers: {
-              Authorization: userToken,
-              "Content-Type": "multipart/form-data",
-            },
+        headers: {
+          Authorization: userToken,
+          "Content-Type": "multipart/form-data",
+        },
+        params: {
+          userId: userId,
+        },
           })
           .then((response) => console.log(response.data))
           .catch((error) => {
-            console.error(error);
-            throw error;
+        console.error(error);
+        throw error;
           }),
         {
           loading: "Uploading file...",
           success: "File uploaded successfully!",
-          error: "Error uploading file",
+          error: (err) => `${err.response.data}`,
         }
       );
     }

@@ -23,23 +23,6 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // useEffect(() => {
-  //   const generateEmbedding = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://localhost:8080/api/generate/embedding",
-  //         {
-  //           headers: { Authorization: userToken },
-  //         }
-  //       );
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   generateEmbedding();
-  // }, []);
-
   return (
     <>
       <AppBar
