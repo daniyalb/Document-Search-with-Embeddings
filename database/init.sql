@@ -2,11 +2,17 @@ CREATE EXTENSION vector;
 
 CREATE TABLE documents (
     id bigserial PRIMARY KEY,
-    embedding vector(768),
-    user_id UUID
+    user_id UUID,
+    title TEXT
 );
 
-CREATE INDEX ON documents USING hnsw (embedding vector_l2_ops);
+CREATE TABLE embeddings (
+    id bigserial PRIMARY KEY,
+    embedding vector(768),
+    document_id bigint REFERENCES documents(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE INDEX ON embeddings USING hnsw (embedding vector_l2_ops);
 
 SET hnsw.ef_search = 100;
 

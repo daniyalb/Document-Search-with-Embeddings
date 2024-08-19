@@ -29,6 +29,7 @@ const Upload = ({ isSmallScreen }: UploadProps) => {
         },
         params: {
           userId: userId,
+          fileName: file.name,
         },
           })
           .then((response) => console.log(response.data))
