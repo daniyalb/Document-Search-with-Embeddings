@@ -106,6 +106,62 @@ app.post(
   }
 );
 
+app.post("/api/makeQuery", verifyToken, async (req, res) => {
+  const { prompt, userId } = req.body;
+
+  // if the prompt is larger than 10,000 bytes, return an error
+  if (prompt.length > 10000) {
+    return res.status(400).send("Prompt is too large");
+  }
+
+  try {
+
+    // Batch embed the contents
+    const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
+    const result = await model.embedContent(prompt);
+
+    // Get the embedding
+    const embedding = result.embedding.values;
+    const formattedEmbedding = `[${embedding.join(",")}]`;
+
+    //get closest embeddings from the database using l2 distance
+    // SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5; <- Example query
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      
+      // Find the document Ids that have the closest l2 distance to the prompt
+      // compare the embedding with all the embeddings of a document,
+      // return the ids of the documents with the smallest l2 distance
+      // make sure the user_id is the same as the user_id of the prompt
+      const findClosestEmbeddingsQuery =
+        "SELECT document_id FROM embeddings WHERE document_id IN (SELECT id FROM documents WHERE user_id = $1) ORDER BY embedding <-> $2 LIMIT 5";
+      const result = await client.query(findClosestEmbeddingsQuery, [userId, formattedEmbedding]);
+      console.log(result.rows);
+
+      // get the titles of the documents in the same order as the result
+      const titles = [];
+      for (const row of result.rows) {
+        const titleQuery = "SELECT title FROM documents WHERE id = $1";
+        const titleResult = await client.query(titleQuery, [row.document_id]);
+        titles.push(titleResult.rows[0].title);
+      }
+
+      await client.query("COMMIT");
+      res.json({ titles });
+    }
+    catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error("Error processing prompt:", error);
+    res.status(500).send("Error processing prompt");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
