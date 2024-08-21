@@ -38,7 +38,7 @@ app.post(
       const fileBuffer = req.file.buffer;
       const fileSizeInBytes = fileBuffer.length;
       const maxSizeInBytes = 2.5 * 1024 * 1024; // 2.5MB in bytes
-      const userId = req.query.userId;
+      const userId = req.user.id;
 
       if (fileSizeInBytes > maxSizeInBytes) {
         return res.status(400).send("File size exceeds 2.5MB");
@@ -107,11 +107,12 @@ app.post(
 );
 
 app.post("/api/makeQuery", verifyToken, async (req, res) => {
-  const { prompt, userId } = req.body;
+  const prompt = req.body.prompt;
+  const userId = req.user.id;
 
   // if the prompt is larger than 10,000 bytes, return an error
-  if (prompt.length > 10000) {
-    return res.status(400).send("Prompt is too large");
+  if (Buffer.byteLength(prompt, "utf8") > 9950) {
+    return res.status(400).send("Prompt is too long, please shorten it.");
   }
 
   try {
@@ -137,7 +138,6 @@ app.post("/api/makeQuery", verifyToken, async (req, res) => {
       const findClosestEmbeddingsQuery =
         "SELECT document_id FROM embeddings WHERE document_id IN (SELECT id FROM documents WHERE user_id = $1) ORDER BY embedding <-> $2 LIMIT 5";
       const result = await client.query(findClosestEmbeddingsQuery, [userId, formattedEmbedding]);
-      console.log(result.rows);
 
       // get the titles of the documents in the same order as the result
       const titles = [];
@@ -159,6 +159,22 @@ app.post("/api/makeQuery", verifyToken, async (req, res) => {
   } catch (error) {
     console.error("Error processing prompt:", error);
     res.status(500).send("Error processing prompt");
+  }
+});
+
+app.get("/api/getDocuments", verifyToken, async (req, res) => {
+  const userId = req.user.id;
+
+  const client = await pool.connect();
+  try {
+    const query = "SELECT id, title FROM documents WHERE user_id = $1";
+    const result = await client.query(query, [userId]);
+    res.json({ documents: result.rows });
+  } catch (error) {
+    console.error("Error fetching documents:", error);
+    res.status(500).send("Error fetching documents");
+  } finally {
+    client.release();
   }
 });
 

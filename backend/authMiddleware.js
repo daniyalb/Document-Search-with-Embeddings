@@ -9,7 +9,7 @@ async function verifyToken(req, res, next) {
   try {
     const token = req.headers.authorization;
     const { data: { user }, error } = await supabase.auth.getUser(token);
-
+    
     if (error) throw error;
     req.user = user;
     next();

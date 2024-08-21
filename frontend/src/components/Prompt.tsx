@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { UserContext } from "../App";
+import toast from "react-hot-toast";
 
 interface PromptProps {
   isSmallScreen: boolean;
@@ -10,25 +11,31 @@ interface PromptProps {
 
 const Prompt = ({ isSmallScreen, isMediumScreen }: PromptProps) => {
   const [prompt, setPrompt] = useState("");
-  const { userToken, userId } = useContext(UserContext);
+  const { userToken } = useContext(UserContext);
 
   const handleSubmit = async () => {
-    axios
-      .post(
-        "http://localhost:8080/api/makeQuery",
-        { prompt, userId },
-        {
-          headers: {
-            Authorization: userToken,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    toast.promise(
+      axios
+        .post(
+          "http://localhost:8080/api/makeQuery",
+          { prompt },
+          {
+            headers: {
+              Authorization: userToken,
+            },
+          }
+        )
+        .then((response) => console.log(response.data))
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        }),
+      {
+        loading: "Searching for documents...",
+        success: "Documents found successfully!",
+        error: (err) => `${err.response.data}`,
+      }
+    );
   };
 
   return (

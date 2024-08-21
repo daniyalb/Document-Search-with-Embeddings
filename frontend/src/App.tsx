@@ -12,7 +12,9 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-export const UserContext = createContext<{ userToken: string, userId: string }>({ userToken: "", userId: "" });
+export const UserContext = createContext<{ userToken: string }>({
+  userToken: "",
+});
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -43,7 +45,7 @@ function App() {
             session ? (
               <>
                 <UserContext.Provider
-                  value={{ userToken: session.access_token, userId: session.user.id }}
+                  value={{ userToken: session.access_token }}
                 >
                   <Dashboard user={session.user} supabase={supabase} />
                 </UserContext.Provider>

@@ -10,7 +10,7 @@ interface UploadProps {
 }
 
 const Upload = ({ isSmallScreen }: UploadProps) => {
-  const { userToken, userId } = useContext(UserContext);
+  const { userToken } = useContext(UserContext);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -28,7 +28,6 @@ const Upload = ({ isSmallScreen }: UploadProps) => {
           "Content-Type": "multipart/form-data",
         },
         params: {
-          userId: userId,
           fileName: file.name,
         },
           })
