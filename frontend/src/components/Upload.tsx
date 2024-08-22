@@ -9,14 +9,16 @@ interface UploadProps {
   isSmallScreen: boolean;
   update: boolean;
   setUpdate: (update: boolean) => void;
+  setPromptResults: (results: { title: string; id: string } | null) => void;
 }
 
-const Upload = ({ isSmallScreen, update, setUpdate }: UploadProps) => {
+const Upload = ({ isSmallScreen, update, setUpdate, setPromptResults }: UploadProps) => {
   const { userToken } = useContext(UserContext);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    setPromptResults(null);
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
       const formData = new FormData();

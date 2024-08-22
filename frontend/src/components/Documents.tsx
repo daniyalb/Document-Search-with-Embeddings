@@ -9,9 +9,16 @@ interface DocumentsProps {
   isSmallScreen: boolean;
   isMediumScreen: boolean;
   update: boolean;
+  promptResults: PromptResults | null;
 }
 
-const Documents = ({update}: DocumentsProps) => {
+interface PromptResults {
+  title: string;
+  id: string;
+}
+[];
+
+const Documents = ({ update, promptResults }: DocumentsProps) => {
   const { userToken } = useContext(UserContext);
   const [documents, setDocuments] = useState<
     null | { title: string; id: string }[]
@@ -54,7 +61,22 @@ const Documents = ({update}: DocumentsProps) => {
       }}
     >
       <Grid container spacing={2} sx={{ flexWrap: "wrap" }}>
-        {documents && documents.length > 0 ? (
+        {Array.isArray(promptResults) ? (
+          promptResults.map((result, index) => (
+            <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <ArticleIcon sx={{ fontSize: 100 }} />
+                <Typography variant="body1">{result.title}</Typography>
+              </Box>
+            </Grid>
+          ))
+        ) : documents && documents.length > 0 ? (
           documents.map((doc, index) => (
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
               <Box
@@ -100,11 +122,11 @@ const Documents = ({update}: DocumentsProps) => {
             </Grid>
           ))
         ) : (
-            <Grid item>
-              <Typography variant="h6" sx={{ color: "white", mt: 2, ml: 6 }}>
-                No documents found. Please upload a document.
+          <Grid item>
+            <Typography variant="h6" sx={{ color: "white", mt: 2, ml: 6 }}>
+              No documents found. Please upload a document.
             </Typography>
-            </Grid>
+          </Grid>
         )}
       </Grid>
     </Box>

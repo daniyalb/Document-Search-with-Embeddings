@@ -7,9 +7,20 @@ import toast from "react-hot-toast";
 interface PromptProps {
   isSmallScreen: boolean;
   isMediumScreen: boolean;
+  setPromptResults: (promptResults: PromptResults | null) => void;
 }
 
-const Prompt = ({ isSmallScreen, isMediumScreen }: PromptProps) => {
+interface PromptResults {
+  title: string;
+  id: string;
+}
+[];
+
+const Prompt = ({
+  isSmallScreen,
+  isMediumScreen,
+  setPromptResults,
+}: PromptProps) => {
   const [prompt, setPrompt] = useState("");
   const { userToken } = useContext(UserContext);
 
@@ -25,7 +36,10 @@ const Prompt = ({ isSmallScreen, isMediumScreen }: PromptProps) => {
             },
           }
         )
-        .then((response) => console.log(response.data))
+        .then((response) => {
+          setPromptResults(response.data.title_ids);
+          console.log(response.data);
+        })
         .catch((error) => {
           console.error(error);
           throw error;
@@ -54,7 +68,10 @@ const Prompt = ({ isSmallScreen, isMediumScreen }: PromptProps) => {
         type="text"
         placeholder="Enter your prompt here to search for a document..."
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={(e) => {
+          setPrompt(e.target.value);
+          setPromptResults(null);
+        }}
         onKeyUp={(e) => {
           if (e.key === "Enter") {
             handleSubmit();

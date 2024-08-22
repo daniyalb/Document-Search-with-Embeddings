@@ -18,12 +18,19 @@ interface DashboardProps {
   supabase: any;
 }
 
+interface PromptResults {
+  title: string;
+  id: string;
+}
+[];
+
 export const Dashboard = ({ user, supabase }: DashboardProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [update, setUpdate] = useState<boolean>(false);
+  const [promptResults, setPromptResults] = useState<PromptResults | null>(null);
 
   return (
     <>
@@ -67,7 +74,11 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
           gap: "2em",
         }}
       >
-        <Prompt isMediumScreen={isMediumScreen} isSmallScreen={isSmallScreen} />
+        <Prompt
+          isMediumScreen={isMediumScreen}
+          isSmallScreen={isSmallScreen}
+          setPromptResults={setPromptResults}
+        />
         <Box
           style={{
             display: "flex",
@@ -86,14 +97,20 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
               fontSize: isSmallScreen ? "1.5rem" : "2rem",
             }}
           >
-            Your Documents
+            {promptResults ? "Best matching documents" : "Your Documents"}
           </Typography>
-          <Upload isSmallScreen={isSmallScreen} update={update} setUpdate={setUpdate} />
+          <Upload
+            isSmallScreen={isSmallScreen}
+            update={update}
+            setUpdate={setUpdate}
+            setPromptResults={setPromptResults}
+          />
         </Box>
         <Documents
           isMediumScreen={isMediumScreen}
           isSmallScreen={isSmallScreen}
           update={update}
+          promptResults={promptResults}
         />
       </Box>
     </>

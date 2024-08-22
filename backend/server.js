@@ -140,15 +140,15 @@ app.post("/api/makeQuery", verifyToken, async (req, res) => {
       const result = await client.query(findClosestEmbeddingsQuery, [userId, formattedEmbedding]);
 
       // get the titles of the documents in the same order as the result
-      const titles = [];
+      const title_ids = [];
       for (const row of result.rows) {
         const titleQuery = "SELECT title FROM documents WHERE id = $1";
         const titleResult = await client.query(titleQuery, [row.document_id]);
-        titles.push(titleResult.rows[0].title);
+        title_ids.push({ id: row.document_id, title: titleResult.rows[0].title });
       }
 
       await client.query("COMMIT");
-      res.json({ titles });
+      res.json({ title_ids });
     }
     catch (error) {
       await client.query("ROLLBACK");
