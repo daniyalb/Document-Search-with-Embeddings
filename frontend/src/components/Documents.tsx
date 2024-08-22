@@ -8,9 +8,10 @@ import toast from "react-hot-toast";
 interface DocumentsProps {
   isSmallScreen: boolean;
   isMediumScreen: boolean;
+  update: boolean;
 }
 
-const Documents = ({}: DocumentsProps) => {
+const Documents = ({update}: DocumentsProps) => {
   const { userToken } = useContext(UserContext);
   const [documents, setDocuments] = useState<
     null | { title: string; id: string }[]
@@ -30,7 +31,7 @@ const Documents = ({}: DocumentsProps) => {
         console.error(error);
         toast.error("Failed to fetch documents. Please try again later.");
       });
-  }, []);
+  }, [update]);
 
   return (
     <Box

@@ -7,9 +7,11 @@ import toast from "react-hot-toast";
 
 interface UploadProps {
   isSmallScreen: boolean;
+  update: boolean;
+  setUpdate: (update: boolean) => void;
 }
 
-const Upload = ({ isSmallScreen }: UploadProps) => {
+const Upload = ({ isSmallScreen, update, setUpdate }: UploadProps) => {
   const { userToken } = useContext(UserContext);
 
   const handleFileChange = async (
@@ -23,18 +25,21 @@ const Upload = ({ isSmallScreen }: UploadProps) => {
       toast.promise(
         axios
           .post("http://localhost:8080/api/receivePDF", formData, {
-        headers: {
-          Authorization: userToken,
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          fileName: file.name,
-        },
+            headers: {
+              Authorization: userToken,
+              "Content-Type": "multipart/form-data",
+            },
+            params: {
+              fileName: file.name,
+            },
           })
-          .then((response) => console.log(response.data))
+          .then((response) => {
+            setUpdate(!update);
+            console.log(response.data);
+          })
           .catch((error) => {
-        console.error(error);
-        throw error;
+            console.error(error);
+            throw error;
           }),
         {
           loading: "Uploading file...",

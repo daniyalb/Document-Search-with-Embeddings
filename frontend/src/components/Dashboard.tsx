@@ -11,6 +11,7 @@ import UserIcon from "./UserIcon";
 import Prompt from "./Prompt";
 import Documents from "./Documents";
 import Upload from "./Upload";
+import { useState } from "react";
 
 interface DashboardProps {
   user: any;
@@ -22,6 +23,7 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [update, setUpdate] = useState<boolean>(false);
 
   return (
     <>
@@ -86,11 +88,12 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
           >
             Your Documents
           </Typography>
-          <Upload isSmallScreen={isSmallScreen} />
+          <Upload isSmallScreen={isSmallScreen} update={update} setUpdate={setUpdate} />
         </Box>
         <Documents
           isMediumScreen={isMediumScreen}
           isSmallScreen={isSmallScreen}
+          update={update}
         />
       </Box>
     </>

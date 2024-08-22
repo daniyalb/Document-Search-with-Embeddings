@@ -8,8 +8,13 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import { Session } from "@supabase/supabase-js";
 
-const Home = () => {
+interface HomeProps {
+  session: Session | null;
+}
+
+const Home = ({ session }: HomeProps) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -63,8 +68,9 @@ const Home = () => {
                 fontSize: isSmallScreen ? "0.75rem" : "1rem",
               }}
               variant="outlined"
+              onClick={() => navigate("/dashboard")}
             >
-              Login / Sign Up
+              {session ? "Dashboard" : "Login / Sign Up"}
             </Button>
           </Box>
         </Toolbar>
