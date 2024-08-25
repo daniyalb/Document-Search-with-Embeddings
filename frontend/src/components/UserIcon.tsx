@@ -1,10 +1,10 @@
 import { Avatar, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import PersonIcon from "@mui/icons-material/Person";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { Session, SupabaseClient } from "@supabase/supabase-js";
 
 interface UserProps {
-  user: { email: string };
+  user: Session["user"];
   supabase: SupabaseClient;
 }
 
@@ -33,7 +33,7 @@ const UserIcon = ({ user, supabase }: UserProps) => {
   };
 
   const { backgroundColor } = getAvatarColor(
-    user.email.charAt(0).toUpperCase()
+    user.email?.charAt(0)?.toUpperCase() ?? ""
   );
 
   return (

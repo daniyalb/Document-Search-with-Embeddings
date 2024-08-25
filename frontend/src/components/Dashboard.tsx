@@ -12,10 +12,10 @@ import Prompt from "./Prompt";
 import Documents from "./Documents";
 import Upload from "./Upload";
 import { useState } from "react";
-import { SupabaseClient } from "@supabase/supabase-js";
+import { Session, SupabaseClient } from "@supabase/supabase-js";
 
 interface DashboardProps {
-  user: { email: string };
+  user: Session["user"];
   supabase: SupabaseClient;
 }
 
