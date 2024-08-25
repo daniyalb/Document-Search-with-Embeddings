@@ -110,6 +110,7 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
           isMediumScreen={isMediumScreen}
           isSmallScreen={isSmallScreen}
           update={update}
+          setUpdate={setUpdate}
           promptResults={promptResults}
         />
       </Box>

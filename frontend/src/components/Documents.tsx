@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
 import toast from "react-hot-toast";
+import DocumentItem from "./DocumentItem";
 
 interface PromptResult {
   title: string;
@@ -15,9 +16,10 @@ interface DocumentsProps {
   isMediumScreen: boolean;
   update: boolean;
   promptResults: PromptResult[] | null;
+  setUpdate: (update: boolean) => void;
 }
 
-const Documents = ({ update, promptResults }: DocumentsProps) => {
+const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
   const { userToken } = useContext(UserContext);
   const [documents, setDocuments] = useState<
     null | { title: string; id: string }[]
@@ -63,31 +65,21 @@ const Documents = ({ update, promptResults }: DocumentsProps) => {
         {Array.isArray(promptResults) ? (
           promptResults.map((result, index) => (
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <ArticleIcon sx={{ fontSize: 100 }} />
-                <Typography variant="body1">{result.title}</Typography>
-              </Box>
+              <DocumentItem
+                result={result}
+                update={update}
+                setUpdate={setUpdate}
+              />
             </Grid>
           ))
         ) : documents && documents.length > 0 ? (
           documents.map((doc, index) => (
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <ArticleIcon sx={{ fontSize: 100 }} />
-                <Typography variant="body1">{doc.title}</Typography>
-              </Box>
+              <DocumentItem
+                result={doc}
+                update={update}
+                setUpdate={setUpdate}
+              />
             </Grid>
           ))
         ) : documents === null ? (

@@ -116,7 +116,6 @@ app.post("/api/makeQuery", verifyToken, async (req, res) => {
   }
 
   try {
-
     // Batch embed the contents
     const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
     const result = await model.embedContent(prompt);
@@ -130,27 +129,32 @@ app.post("/api/makeQuery", verifyToken, async (req, res) => {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
-      
+
       // Find the document Ids that have the closest l2 distance to the prompt
       // compare the embedding with all the embeddings of a document,
       // return the ids of the documents with the smallest l2 distance
       // make sure the user_id is the same as the user_id of the prompt
       const findClosestEmbeddingsQuery =
         "SELECT document_id FROM embeddings WHERE document_id IN (SELECT id FROM documents WHERE user_id = $1) ORDER BY embedding <-> $2 LIMIT 5";
-      const result = await client.query(findClosestEmbeddingsQuery, [userId, formattedEmbedding]);
+      const result = await client.query(findClosestEmbeddingsQuery, [
+        userId,
+        formattedEmbedding,
+      ]);
 
       // get the titles of the documents in the same order as the result
       const title_ids = [];
       for (const row of result.rows) {
         const titleQuery = "SELECT title FROM documents WHERE id = $1";
         const titleResult = await client.query(titleQuery, [row.document_id]);
-        title_ids.push({ id: row.document_id, title: titleResult.rows[0].title });
+        title_ids.push({
+          id: row.document_id,
+          title: titleResult.rows[0].title,
+        });
       }
 
       await client.query("COMMIT");
       res.json({ title_ids });
-    }
-    catch (error) {
+    } catch (error) {
       await client.query("ROLLBACK");
       throw error;
     } finally {
@@ -175,6 +179,34 @@ app.get("/api/getDocuments", verifyToken, async (req, res) => {
     res.status(500).send("Error fetching documents");
   } finally {
     client.release();
+  }
+});
+
+app.delete("/api/deleteDocument", verifyToken, async (req, res) => {
+  const userId = req.user.id;
+  const documentId = req.query.documentId;
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    const deleteDocumentQuery =
+      "DELETE FROM documents WHERE id = $1 AND user_id = $2";
+    const result = await client.query(deleteDocumentQuery, [
+      documentId,
+      userId,
+    ]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).send("Document not found");
+    }
+
+    await client.query("COMMIT");
+    res.send("Document deleted successfully");
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error deleting document:", error);
+    res.status(500).send("Error deleting document");
   }
 });
 
