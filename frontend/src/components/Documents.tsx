@@ -5,18 +5,17 @@ import axios from "axios";
 import { UserContext } from "../App";
 import toast from "react-hot-toast";
 
+interface PromptResult {
+  title: string;
+  id: string;
+}
+
 interface DocumentsProps {
   isSmallScreen: boolean;
   isMediumScreen: boolean;
   update: boolean;
-  promptResults: PromptResults | null;
+  promptResults: PromptResult[] | null;
 }
-
-interface PromptResults {
-  title: string;
-  id: string;
-}
-[];
 
 const Documents = ({ update, promptResults }: DocumentsProps) => {
   const { userToken } = useContext(UserContext);
@@ -38,7 +37,7 @@ const Documents = ({ update, promptResults }: DocumentsProps) => {
         console.error(error);
         toast.error("Failed to fetch documents. Please try again later.");
       });
-  }, [update]);
+  }, [update, userToken]);
 
   return (
     <Box

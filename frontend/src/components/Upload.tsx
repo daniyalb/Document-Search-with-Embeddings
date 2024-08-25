@@ -5,14 +5,24 @@ import { UserContext } from "../App";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+interface PromptResult {
+  title: string;
+  id: string;
+}
+
 interface UploadProps {
   isSmallScreen: boolean;
   update: boolean;
   setUpdate: (update: boolean) => void;
-  setPromptResults: (results: { title: string; id: string } | null) => void;
+  setPromptResults: (promptResults: PromptResult[] | null) => void;
 }
 
-const Upload = ({ isSmallScreen, update, setUpdate, setPromptResults }: UploadProps) => {
+const Upload = ({
+  isSmallScreen,
+  update,
+  setUpdate,
+  setPromptResults,
+}: UploadProps) => {
   const { userToken } = useContext(UserContext);
 
   const handleFileChange = async (

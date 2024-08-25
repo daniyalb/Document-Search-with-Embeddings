@@ -12,17 +12,17 @@ import Prompt from "./Prompt";
 import Documents from "./Documents";
 import Upload from "./Upload";
 import { useState } from "react";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 interface DashboardProps {
-  user: any;
-  supabase: any;
+  user: { email: string };
+  supabase: SupabaseClient;
 }
 
-interface PromptResults {
+interface PromptResult {
   title: string;
   id: string;
 }
-[];
 
 export const Dashboard = ({ user, supabase }: DashboardProps) => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const Dashboard = ({ user, supabase }: DashboardProps) => {
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [update, setUpdate] = useState<boolean>(false);
-  const [promptResults, setPromptResults] = useState<PromptResults | null>(null);
+  const [promptResults, setPromptResults] = useState<PromptResult[] | null>(null);
 
   return (
     <>

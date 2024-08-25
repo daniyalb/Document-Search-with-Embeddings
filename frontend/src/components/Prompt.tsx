@@ -4,17 +4,16 @@ import { useContext, useState } from "react";
 import { UserContext } from "../App";
 import toast from "react-hot-toast";
 
-interface PromptProps {
-  isSmallScreen: boolean;
-  isMediumScreen: boolean;
-  setPromptResults: (promptResults: PromptResults | null) => void;
-}
-
-interface PromptResults {
+interface PromptResult {
   title: string;
   id: string;
 }
-[];
+
+interface PromptProps {
+  isSmallScreen: boolean;
+  isMediumScreen: boolean;
+  setPromptResults: (promptResults: PromptResult[] | null) => void;
+}
 
 const Prompt = ({
   isSmallScreen,
