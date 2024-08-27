@@ -1,5 +1,4 @@
 import { Box, Grid, Typography, Skeleton, colors } from "@mui/material";
-import ArticleIcon from "@mui/icons-material/Article";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../App";
@@ -41,6 +40,19 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
       });
   }, [update, userToken]);
 
+  const getBannerText = (index: number) => {
+    switch (index) {
+      case 0:
+        return "Best Match";
+      case 1:
+        return "2nd Best Match";
+      case 2:
+        return "3rd Best Match";
+      default:
+        return `${index + 1}th Best Match`;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -65,11 +77,30 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
         {Array.isArray(promptResults) ? (
           promptResults.map((result, index) => (
             <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
-              <DocumentItem
-                result={result}
-                update={update}
-                setUpdate={setUpdate}
-              />
+              <Box sx={{ position: "relative", marginLeft: "1em" }}>
+                {index < 3 && (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      backgroundColor: index === 0 ? "#9F03B8" : "rgba(0, 0, 0, 0.7)",
+                      color: "white",
+                      padding: "0.2em 0.5em",
+                      borderRadius: "0.5em",
+                      zIndex: 1,
+                    }}
+                  >
+                    {getBannerText(index)}
+                  </Typography>
+                )}
+                <DocumentItem
+                  result={result}
+                  update={update}
+                  setUpdate={setUpdate}
+                />
+              </Box>
             </Grid>
           ))
         ) : documents && documents.length > 0 ? (

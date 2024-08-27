@@ -70,7 +70,14 @@ const DocumentItem = ({ result, update, setUpdate }: DocumentProps) => {
           alignItems: "center",
         }}
       >
-        <ArticleIcon sx={{ fontSize: 100 }} />
+        <ArticleIcon
+          sx={{
+            fontSize: 100,
+            ":hover": {
+              cursor: "pointer",
+            },
+          }}
+        />
         <Typography variant="body1">{result.title}</Typography>
         <Popover
           open={Boolean(anchorEl)}
