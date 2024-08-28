@@ -36,7 +36,7 @@ const Upload = ({
 
       toast.promise(
         axios
-          .post("http://localhost:8080/api/receivePDF", formData, {
+          .post(import.meta.env.VITE_BACKEND_URL + "/api/receivePDF", formData, {
             headers: {
               Authorization: userToken,
               "Content-Type": "multipart/form-data",

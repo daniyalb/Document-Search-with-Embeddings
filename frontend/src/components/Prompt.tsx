@@ -27,7 +27,7 @@ const Prompt = ({
     toast.promise(
       axios
         .post(
-          "http://localhost:8080/api/makeQuery",
+          import.meta.env.VITE_BACKEND_URL + "/api/makeQuery",
           { prompt },
           {
             headers: {

@@ -26,7 +26,7 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/getDocuments", {
+      .get(import.meta.env.VITE_BACKEND_URL + "/api/getDocuments", {
         headers: {
           Authorization: userToken,
         },

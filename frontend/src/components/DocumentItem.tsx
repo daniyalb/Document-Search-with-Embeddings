@@ -36,7 +36,7 @@ const DocumentItem = ({ result, update, setUpdate }: DocumentProps) => {
   };
 
   const handleDeleteDocument = async () => {
-    await axios.delete("http://localhost:8080/api/deleteDocument", {
+    await axios.delete(import.meta.env.VITE_BACKEND_URL + "/api/deleteDocument", {
       headers: {
         Authorization: userToken,
       },
