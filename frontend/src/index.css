@@ -28,3 +28,7 @@ html, body {
   color: #fff;
   border-color:#7a5b8e;
 }
+
+.supabase-auth-ui_ui-input.c-dEnagJ.c-dEnagJ-bBzSYw-type-password, .supabase-auth-ui_ui-input.c-dEnagJ.c-dEnagJ-bBzSYw-type-default {
+  color: #fff;
+}
