@@ -48,8 +48,12 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
         return "2nd Best Match";
       case 2:
         return "3rd Best Match";
+      case 3:
+        return "4th Best Match";
+      case 4:
+        return "5th Best Match";
       default:
-        return `${index + 1}th Best Match`;
+        return "";
     }
   };
 

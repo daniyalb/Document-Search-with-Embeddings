@@ -55,6 +55,7 @@ function App() {
             )
           }
         />
+        <Route path="*" element={<Home session={session} />} />
       </Routes>
     </div>
   );
