@@ -1,20 +1,16 @@
 import "./App.css";
-import { createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import { useEffect, useState } from "react";
 import { Session, createClient } from "@supabase/supabase-js";
 import SupabaseAuth from "./components/SupabaseAuth";
+import { UserContext } from "./userContext";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-export const UserContext = createContext<{ userToken: string }>({
-  userToken: "",
-});
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);

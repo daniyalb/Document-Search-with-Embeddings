@@ -6,17 +6,21 @@ import App from "./App";
 import { Box } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Router>
-      <Toaster />
-      <Box
-        style={{
-          height: "100vh",
-        }}
-      >
-        <App />
-      </Box>
-    </Router>
-  </React.StrictMode>
-);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <Router>
+        <Toaster />
+        <Box
+          style={{
+            height: "100vh",
+          }}
+        >
+          <App />
+        </Box>
+      </Router>
+    </React.StrictMode>
+  );
+}
