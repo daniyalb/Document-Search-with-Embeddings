@@ -2,7 +2,7 @@ import { Box, Typography, Popover, Button } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useContext, useState, useRef, useEffect } from "react";
-import { UserContext } from "../App";
+import { UserContext } from "../userContext";
 import axios from "axios";
 
 interface DocumentProps {

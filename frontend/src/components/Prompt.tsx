@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { UserContext } from "../App";
+import { UserContext } from "../userContext";
 import toast from "react-hot-toast";
 
 interface PromptResult {
