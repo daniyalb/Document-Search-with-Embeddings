@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useContext } from "react";
-import { UserContext } from "../App";
+import { UserContext } from "../userContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 

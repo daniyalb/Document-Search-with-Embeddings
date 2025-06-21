@@ -1,7 +1,7 @@
 import { Box, Grid, Typography, Skeleton, colors } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { UserContext } from "../App";
+import { UserContext } from "../userContext";
 import toast from "react-hot-toast";
 import DocumentItem from "./DocumentItem";
 
@@ -80,7 +80,7 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
       <Grid container spacing={2} sx={{ flexWrap: "wrap" }}>
         {Array.isArray(promptResults) ? (
           promptResults.map((result, index) => (
-            <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={index}>
               <Box sx={{ position: "relative", marginLeft: "1em" }}>
                 {index < 3 && (
                   <Typography
@@ -109,7 +109,7 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
           ))
         ) : documents && documents.length > 0 ? (
           documents.map((doc, index) => (
-            <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={index}>
               <DocumentItem
                 result={doc}
                 update={update}
@@ -119,7 +119,7 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
           ))
         ) : documents === null ? (
           [...Array(3)].map((_, index) => (
-            <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={index}>
               <Box
                 key={index}
                 sx={{
@@ -148,7 +148,7 @@ const Documents = ({ update, promptResults, setUpdate }: DocumentsProps) => {
             </Grid>
           ))
         ) : (
-          <Grid item>
+          <Grid>
             <Typography variant="h6" sx={{ color: "white", mt: 2, ml: 6 }}>
               No documents found. Please upload a document.
             </Typography>
